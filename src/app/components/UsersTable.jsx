@@ -1,6 +1,8 @@
 "use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
+import { deleteUser } from "../lib/actions";
 
 // --- Professional SVG Icons ---
 const DetailsIcon = () => (
@@ -79,8 +81,15 @@ const UsersTable = ({ users }) => {
 
   const confirmDelete = async () => {
     if (!selectedUser) return;
-    console.log(`Deleting user: ${selectedUser._id}`);
-    // await fetch(`http://localhost:5000/users/${selectedUser._id}`, { method: 'DELETE' });
+
+    const result = await deleteUser(selectedUser._id);
+
+    if (result.success) {
+      console.log(result.message);
+    } else {
+      alert(result.message);
+    }
+
     closeDeleteModal();
   };
 

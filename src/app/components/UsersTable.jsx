@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { deleteUser } from "../lib/actions";
+import { deleteUser, updateUser } from "../lib/actions";
 import AddNewUser from "./AddNewUser";
+import EditUserModal from "./EditUserModal";
 
 // --- Professional SVG Icons ---
 const DetailsIcon = () => (
@@ -63,6 +64,7 @@ const DeleteIcon = () => (
 const UsersTable = ({ users }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const roleColorMap = {
@@ -76,8 +78,18 @@ const UsersTable = ({ users }) => {
     setIsModalOpen(true);
   };
 
+  const openEditModal = (user) => {
+    setSelectedUser(user);
+    setIsEditModalOpen(true);
+  };
+
   const closeDeleteModal = () => {
     setIsModalOpen(false);
+    setSelectedUser(null);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
     setSelectedUser(null);
   };
 
@@ -177,6 +189,7 @@ const UsersTable = ({ users }) => {
                           <DetailsIcon />
                         </Link>
                         <button
+                          onClick={() => openEditModal(user)}
                           title="Edit User"
                           className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
                         >
@@ -218,7 +231,7 @@ const UsersTable = ({ users }) => {
       {/* Confirmation Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm transition-opacity">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 transform transition-all scale-100 animate-in fade-in zoom-in duration-200">
+          <div className="bg-white rounded-3xl shadow-2xl max-sm w-full p-8 transform transition-all scale-100 animate-in fade-in zoom-in duration-200">
             <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
               <svg
                 className="w-8 h-8 text-red-600"
@@ -268,6 +281,13 @@ const UsersTable = ({ users }) => {
       <AddNewUser 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)} 
+      />
+
+      {/* Edit User Modal */}
+      <EditUserModal 
+        isOpen={isEditModalOpen} 
+        onClose={closeEditModal} 
+        user={selectedUser} 
       />
     </div>
   );

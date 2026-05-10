@@ -43,3 +43,24 @@ export const createUser = async (userData) => {
     return { success: false, message: "Connection to backend failed" };
   }
 };
+export const updateUser = async (userId, userData) => {
+  try {
+    const res = await fetch(`http://localhost:5000/users/${userId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+
+    if (res.ok) {
+      revalidatePath("/users");
+      // Also revalidate the details page if they are on it
+      revalidatePath(`/users/${userId}`);
+      return { success: true, message: "User updated successfully" };
+    } else {
+      return { success: false, message: `Update failed: ${res.status}` };
+    }
+  } catch (error) {
+    console.error("Update Error:", error);
+    return { success: false, message: "Connection to backend failed" };
+  }
+};

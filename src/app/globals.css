@@ -1,2 +1,8 @@
 @import "tailwindcss";
-@import "@heroui/styles";
+
+/* 
+  Custom styles can be added here using @theme or standard CSS.
+  We are using standard Tailwind 4 imports.
+*/
+
+@custom-variant dark (&:is(.dark *));

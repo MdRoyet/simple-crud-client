@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { deleteUser } from "../lib/actions";
+import AddNewUser from "./AddNewUser";
 
 // --- Professional SVG Icons ---
 const DetailsIcon = () => (
@@ -61,6 +62,7 @@ const DeleteIcon = () => (
 
 const UsersTable = ({ users }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const roleColorMap = {
@@ -105,7 +107,10 @@ const UsersTable = ({ users }) => {
             Manage your team members and their account permissions.
           </p>
         </div>
-        <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-200 flex items-center gap-2 active:scale-95">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-200 flex items-center gap-2 active:scale-95"
+        >
           <span>+</span> Add New Member
         </button>
       </div>
@@ -258,6 +263,12 @@ const UsersTable = ({ users }) => {
           </div>
         </div>
       )}
+
+      {/* Add New User Modal */}
+      <AddNewUser 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+      />
     </div>
   );
 };

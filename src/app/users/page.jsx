@@ -1,6 +1,8 @@
 import React from "react";
+import { getUsers } from "../lib/data";
 
-const usersPage = () => {
+const usersPage = async () => {
+  const users = await getUsers();
   return (
     <div className="items-center justify-center flex container mx-auto">
       Users Management

@@ -9,3 +9,16 @@ export const getUsers = async () => {
     return [];
   }
 };
+export const getUser = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:5000/users/${id}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return null;
+  }
+};

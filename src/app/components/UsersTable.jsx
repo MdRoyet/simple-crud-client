@@ -1,8 +1,31 @@
 "use client";
 
-import React from "react";
+import Link from "next/link";
 
 // --- Professional SVG Icons ---
+const DetailsIcon = () => (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+    />
+  </svg>
+);
+
 const EditIcon = () => (
   <svg
     className="w-5 h-5"
@@ -63,7 +86,8 @@ const UsersTable = ({ users }) => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50/50 border-b border-gray-100">
-                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">User Details</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Email</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Role</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Actions</th>
               </tr>
@@ -78,15 +102,15 @@ const UsersTable = ({ users }) => {
                           <img
                             src={`https://i.pravatar.cc/150?u=${user._id}`}
                             alt={user.name}
-                            className="w-12 h-12 rounded-full ring-2 ring-white shadow-sm object-cover"
+                            className="w-10 h-10 rounded-full ring-2 ring-white shadow-sm object-cover"
                           />
-                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                          <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></div>
                         </div>
-                        <div>
-                          <div className="text-sm font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{user.name}</div>
-                          <div className="text-xs text-gray-500">{user.email}</div>
-                        </div>
+                        <div className="text-sm font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{user.name}</div>
                       </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-500">{user.email}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${roleColorMap[user.role] || "bg-gray-100 text-gray-700 border-gray-200"}`}>
@@ -95,6 +119,13 @@ const UsersTable = ({ users }) => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center gap-3">
+                        <Link 
+                          href={`/users/${user._id}`}
+                          title="View Details"
+                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                        >
+                          <DetailsIcon />
+                        </Link>
                         <button 
                           title="Edit User"
                           className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
@@ -113,7 +144,7 @@ const UsersTable = ({ users }) => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="3" className="px-6 py-12 text-center text-gray-400 italic">
+                  <td colSpan="4" className="px-6 py-12 text-center text-gray-400 italic">
                     No users found in the database.
                   </td>
                 </tr>
